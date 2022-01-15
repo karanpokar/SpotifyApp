@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  StyleSheet,
 } from 'react-native';
 import RenderPlayList from '../components/RenderPlayList';
 import {Colors} from '../theme';
@@ -35,48 +36,25 @@ const PlayListSongs = ({route, navigation}) => {
   const renderPlaylist = ({item}) => (
     <TouchableOpacity
       onPress={() => navigation.navigate('SongProfile', {data: item})}
-      style={{
-        height: 100,
-        flexDirection: 'row',
-        width: '90%',
-        justifyContent: 'space-around',
-      }}>
+      style={styles.container}>
       {/* <Text style={{color: 'red'}}>{item.name}</Text> */}
       <Image
         source={{uri: item.track.album.images[0].url}}
-        style={{height: 100, width: 100, resizeMode: 'contain'}}
+        style={styles.image}
       />
       <View style={{justifyContent: 'center', flex: 1, marginHorizontal: 10}}>
         <Text
           numberOfLines={1}
           ellipsizeMode={'tail'}
           //          adjustsFontSizeToFit={true}
-          style={{
-            fontFamily: typography.Black,
-            color: '#fff',
-            marginBottom: 10,
-
-            fontSize: 16,
-          }}>
+          style={styles.name}>
           {item.track.name}
         </Text>
-        <Text
-          style={{
-            color: '#fff',
-            marginBottom: 10,
-            fontFamily: typography.Medium,
-            fontSize: 14,
-          }}>
+        <Text style={styles.artistsText}>
           {item.track.artists[0].name}{' '}
           {item.track.artists[1] ? `, ${item.track.artists[1].name}` : ''}
         </Text>
-        <Text
-          style={{
-            color: '#fff',
-            marginBottom: 10,
-            fontFamily: typography.Medium,
-            fontSize: 12,
-          }}>
+        <Text style={styles.popularity}>
           Popularity: {item.track.popularity}
         </Text>
       </View>
@@ -93,13 +71,7 @@ const PlayListSongs = ({route, navigation}) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
-          <View
-            style={{
-              height: 200,
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          <View style={styles.headerContainer}>
             <Image
               source={{uri: route.params.image}}
               style={{width: 125, height: 125, borderRadius: 10}}
@@ -129,3 +101,38 @@ const PlayListSongs = ({route, navigation}) => {
 };
 
 export default PlayListSongs;
+
+const styles = StyleSheet.create({
+  container: {
+    height: 100,
+    flexDirection: 'row',
+    width: '90%',
+    justifyContent: 'space-around',
+  },
+  image: {height: 100, width: 100, resizeMode: 'contain'},
+  name: {
+    fontFamily: typography.Black,
+    color: '#fff',
+    marginBottom: 10,
+
+    fontSize: 16,
+  },
+  artistsText: {
+    color: '#fff',
+    marginBottom: 10,
+    fontFamily: typography.Medium,
+    fontSize: 14,
+  },
+  popularity: {
+    color: '#fff',
+    marginBottom: 10,
+    fontFamily: typography.Medium,
+    fontSize: 12,
+  },
+  headerContainer: {
+    height: 200,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
